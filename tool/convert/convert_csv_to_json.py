@@ -13,8 +13,10 @@ INSPECTIONS_DATA_CSV_FILE_NAME = "440001_oita_covid19_inspections.csv"
 
 
 def main():
-    patients_data_csv_file = os.path.dirname(__file__) + "/../../csv/" + PATIENTS_DATA_CSV_FILE_NAME
-    inspections_data_csv_file = os.path.dirname(__file__) + "/../../csv/" + INSPECTIONS_DATA_CSV_FILE_NAME
+    patients_data_csv_file = os.path.dirname(
+        __file__) + "/../../csv/" + PATIENTS_DATA_CSV_FILE_NAME
+    inspections_data_csv_file = os.path.dirname(
+        __file__) + "/../../csv/" + INSPECTIONS_DATA_CSV_FILE_NAME
     export_json_file = os.path.dirname(__file__) + "/../../json/data.json"
 
     if not os.path.exists(patients_data_csv_file) or not os.path.exists(
@@ -22,8 +24,10 @@ def main():
         print("CSV data files are not found.")
         sys.exit(1)
 
-    patients_data = import_csv_to_dict(patients_data_csv_file, encoding='utf_8_sig')
-    inspections_data = import_csv_to_dict(inspections_data_csv_file, encoding='utf_8_sig')
+    patients_data = import_csv_to_dict(
+        patients_data_csv_file, encoding='utf_8_sig')
+    inspections_data = import_csv_to_dict(
+        inspections_data_csv_file, encoding='utf_8_sig')
 
     patients = generate_patients(patients_data)
     patients_summary_by_date = generate_patients_summary_by_date(patients_data)
@@ -108,7 +112,8 @@ def generate_patients_summary_by_date(data):
 
 
 def generate_inspections_summary(data):
-    parsed_data = [{"日付": datetime.datetime.strptime(d["日付"], "%Y-%m-%d"), "小計": int(d["検査人数"])} for d in data]
+    parsed_data = [{"日付": datetime.datetime.strptime(
+        d["日付"], "%Y-%m-%d"), "小計": int(d["検査人数"])} for d in data]
 
     counted_date = [pd["日付"] for pd in parsed_data]
     start_date = sorted(counted_date)[0]
