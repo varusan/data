@@ -28,23 +28,24 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git status
           git add ./csv/*.csv && git diff --cached --exit-code
+          echo "::set-output name=diff::$?"
+        id: diff
 
       - name: Generate data.json
         run: python tool/convert/data_handler.py
         env:
           TZ: "Asia/Tokyo"
-        if: failure()
+        if: steps.diff.outputs.diff == 1
 
       - name: commit data.json
         run: |
           git commit -am "[ci skip] Update Data (commited by GitHub Actions)"
-        if: failure()
+        if: steps.diff.outputs.diff == 1
 
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: master
-        if: failure()
+        if: steps.diff.outputs.diff == 1
