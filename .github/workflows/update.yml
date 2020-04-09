@@ -2,7 +2,7 @@ name: update data csv
 
 on:
   schedule:
-    - cron: "0 * * * *"
+    - cron: "*/5 * * * *"
 
 jobs:
   update:
@@ -27,7 +27,8 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add ./csv/*.csv && git diff --cacahed --exit-code --quiet
+          git status
+          git add ./csv/*.csv && git diff --cached --exit-code --quiet
 
       - name: Generate data.json
         run: python tool/convert/data_handler.py
