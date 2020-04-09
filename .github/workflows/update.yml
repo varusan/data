@@ -28,7 +28,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git status
-          git add ./csv/*.csv && git diff --cached --exit-code --quiet
+          git add ./csv/*.csv && git diff --cached --exit-code
 
       - name: Generate data.json
         run: python tool/convert/data_handler.py
